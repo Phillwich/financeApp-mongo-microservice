@@ -1,6 +1,8 @@
 const { addData, readData, updateData, deleteData } = require('../datastore')
 const { HTTPError } = require('../error/customError')
 const { signToken } = require('../service/jwt')
+const bcrypt = require('bcrypt')
+const saltRounds = 10
 
 const createUser = async (req, res, next) => {
   try {
@@ -9,6 +11,10 @@ const createUser = async (req, res, next) => {
   } catch (error) {
     return next(new HTTPError(error.message), 500)
   }
+
+  const salt = bcrypt.genSaltSync(saltRounds);
+  req.body.password = bcrypt.hashSync(req.body.password, salt);
+  
 
   try {
     const response = await addData(req.body)
