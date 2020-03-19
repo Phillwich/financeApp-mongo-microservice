@@ -4,9 +4,10 @@ const User = require('../model/user')
 
 const createMongoConnection = async () => {
   await mongoose.connect(config.get('MONGO_URL'),
-  { useUnifiedTopology: true,
-    useNewUrlParser: true 
-  })
+    {
+      useUnifiedTopology: true,
+      useNewUrlParser: true
+    })
   console.log('MONGODB connected')
 }
 
@@ -14,15 +15,12 @@ const addData = async (payload) => {
   try {
     const user = new User({ ...payload })
     user.save()
-    return { 
+    return {
       success: true,
       message: `Successfully created ${payload.userId}`
     }
   } catch (error) {
-    return {
-      success: false,
-      error
-    }
+    throw new Error('Could not add data: ', error.message)
   }
 }
 
@@ -35,10 +33,7 @@ const readData = async (payload) => {
       message: `Successfully found ${payload}`
     }
   } catch (error) {
-    return {
-      success: false,
-      error
-    }
+    throw new Error('Could not read data: ', error.message)
   }
 }
 
@@ -52,10 +47,7 @@ const updateData = async (payload) => {
       message: `Successfully updatet ${userId}`
     }
   } catch (error) {
-    return {
-      success: false,
-      error
-    }
+    throw new Error('Could not update data: ', error.message)
   }
 }
 
@@ -67,10 +59,7 @@ const deleteData = async (payload) => {
       message: `Successfully deleted ${payload}`
     }
   } catch (error) {
-    return {
-      success: false,
-      error
-    }
+    throw new Error('Could not delete data: ', error.message)
   }
 }
 
