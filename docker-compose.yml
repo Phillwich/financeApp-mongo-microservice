@@ -1,13 +1,14 @@
 version: '3.7'
 services:
-  mongodb_container:
+  app:
+    container_name: financebackend
+    restart: always
+    build: .
+    ports: 
+      - '8000:8000'
+    depends_on:
+      - mongodb
+  mongodb:
     image: mongo:latest
-    environment:
-      MONGO:INITDB_DATABASE: finance
     ports:
       - 27017:27017
-    volumes:
-      - mongodb_data_container:/data/db
-
-volumes:
-  mongodb_data_container:

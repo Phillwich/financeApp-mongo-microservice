@@ -5,7 +5,7 @@ const { signToken } = require('../service/jwt')
 const createUser = async (req, res, next) => {
   try {
     const userAlreadyExists = await readData({ userName: req.body.userName })
-    if (userAlreadyExists !== null) return next(new HTTPError('User already exists', 409))
+    if (userAlreadyExists === null) return next(new HTTPError('User already exists', 409))
   } catch (error) {
     return next(new HTTPError(error.message), 500)
   }
