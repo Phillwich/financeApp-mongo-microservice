@@ -30,7 +30,7 @@ const readData = async (payload) => {
     return {
       success: true,
       data: user,
-      message: `Successfully found ${payload}`
+      message: `Successfully found ${payload.userId}`
     }
   } catch (error) {
     throw new Error('Could not read data: ', error.message)
