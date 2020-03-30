@@ -11,8 +11,9 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/finance', routes)
-app.use((err, req, res, next) => {
-    return res.status(err.statusCode).send(err.message)
+app.use((error, req, res, next) => {
+    if (error.statusCode) return res.status(error.statusCode).send(error.message)
+    return res.send(error)
 })
 
 app.listen(PORT, () => console.log('Application is running on', PORT))
